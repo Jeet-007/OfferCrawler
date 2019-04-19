@@ -38,6 +38,9 @@
         </select>
       </div>
       <div class="page-no">
+        <a href="{% url 'scrap:crawl_offers' %}"><button class="refresh-button">Refresh Offers</button></a>
+      </div>
+      <div class="page-no">
         <label class="label-class">Pages :</label>
         {{ offers.number }}/{{ offers.paginator.num_pages }}
       </div>
