@@ -1,0 +1,92 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Travel Offers
+    </title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <script
+      type="text/javascript"
+      src="{% static 'assets/js/function.js' %}"
+    ></script>
+  </head>
+  <body class="body">
+    <div class="heading">All Offers</div>
+    <div class="header">
+      <div class="product-filter">
+        <label class="label-class">Filter :</label>
+        <select id="product_type" onchange="filter('{{ offers.number }}')">
+          <option value="" selected> -- </option>
+          {% for product in product_set %} 
+          {% if product == product_type_value %}
+          <option value="{{ product }}" selected>{{ product }}</option>
+          {% else %}
+          <option value="{{ product }}">{{ product }}</option>
+          {% endif %} {% endfor %}
+        </select>
+      </div>
+      <div class="product-filter">
+        <label class="label-class">Type :</label>
+        <select id="coupon_type" onchange="filter('{{ offers.number }}')">
+          <option value="" selected> -- </option>
+          {% for coupon_type in coupon_type_set %} {% if coupon_type == coupon_type_value %}
+          <option value="{{ coupon_type }}" selected>{{ coupon_type }}</option>
+          {% else %}
+          <option value="{{ coupon_type }}">{{ coupon_type }}</option>
+          {% endif %} {% endfor %}
+        </select>
+      </div>
+      <div class="page-no">
+        <label class="label-class">Pages :</label>
+        {{ offers.number }}/{{ offers.paginator.num_pages }}
+      </div>
+    </div>
+    {% if offers %} {% for offer in offers %}
+    <div class="coupon-box">
+      <div class="coupon-value">
+        <span class="coupon-text">{{ offer.amount }}</span>
+        <span class="coupon-rest-text">{{ offer.offer_value }}</span>
+        <div class="coupon-type">
+          <span>{{ offer.product }}</span>
+        </div>
+      </div>
+      <div class="coupon-description-box">
+        <p class="coupon-verification">{{ offer.verified_on }}</p>
+        <p class="coupon-description">
+          {{ offer.description }}
+        </p>
+      </div>
+      {% if offer.code %}
+      <div class="coupon-code">
+        {{ offer.code }}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %} {% else %}
+    <h3 style="text-align:center;">No Offers Available</h3>
+    {% endif %}
+
+    <div class="footer">
+      {% if offers.has_previous %}
+      <button
+        class="button"
+        onclick="filter('{{ offers.previous_page_number }}')"
+      >
+        Prev
+      </button>
+      {% else %}
+      <button class="button" disabled>Prev</button>
+      {% endif %} {% if offers.has_next %}
+      <button
+        class="button"
+        onclick="filter('{{ offers.next_page_number }}')"
+      >
+        Next
+      </button>
+      {% else %}
+      <button class="button" disabled>Next</button>
+      {% endif %}
+    </div>
+  </body>
+</html>
